@@ -1,1 +1,1 @@
-# GBT-Bank-EFTs
+# SCB-EFTs
