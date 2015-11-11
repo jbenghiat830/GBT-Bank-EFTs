@@ -20,14 +20,30 @@
 <#-- Author: Michael Wang | mwang@netsuite.com -->
 <#-- Bank Format: SCB-iPaymentCSV -->
 <#-- format specific processing -->
+<#assign overflowAddr = "">
 <#function buildEntityBillingAddress entity>
     <#assign address = "">
     <#if entity.billaddress1?has_content >
-        <#assign address = entity.billaddress1 >
+        <#if entity.billaddress1?length > 35>
+        	<#assign address = entity.billaddress1[0..34]>
+        	<#assign overflowAddr = entity.billaddress1[35..]>
+        <#else>
+        	<#assign address = entity.billaddress1 >
+        </#if>
     <#elseif entity.shipaddress1?has_content >
-        <#assign address = entity.shipaddress1 >
+        <#if entity.shipaddress1?length > 35>
+        	<#assign address = entity.shipaddress1[0..34]>
+        	<#assign overflowAddr = entity.shipaddress1[35..]>
+        <#else>
+        	<#assign address = entity.shipaddress1 >
+        </#if>
     <#elseif entity.address1?has_content >
-        <#assign address = entity.address1 >
+        <#if entity.address1?length > 35>
+        	<#assign address = entity.address1[0..34]>
+        	<#assign overflowAddr = entity.address1[35..]>
+        <#else>
+        	<#assign address = entity.address1 >
+        </#if>
     </#if>
     <#return address>
 </#function>
