@@ -79,9 +79,15 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P09-->${setMaxLength(cbank.custpage_eft_custrecord_2663_acct_num,34)},<#rt><#--Bank Account Number-->
 <#--P10-->${setMaxLength(pfa.custrecord_2663_file_creation_timestamp?string("dd/MM/yyyy"),10)},<#rt>
 <#--P11-->"${setMaxLength(buildEntityName(entity,false),35)}",<#rt><#--Payee Name-->
+<#if entity.custentitycustentity_gbt__payment_method == "check">
 <#--P12-->,<#rt><#--Payee Address1-->
 <#--P13-->,<#rt><#--Payee Address2-->
 <#--P14-->,<#rt><#--Payee Address3-->
+<#else>
+<#--P12-->,<#rt><#--Payee Address1-->
+<#--P13-->,<#rt><#--Payee Address2-->
+<#--P14-->,<#rt><#--Payee Address3-->
+</#if>
 <#--P15-->,<#rt><#--Not Used-->
 <#--P16-->${setMaxLength(ebank.custrecord_2663_entity_bank_no,17)},<#rt><#--Payee Bank Code/Branch Code (Taiwan); IFSC Code (India)-->
 <#--P17-->,<#rt><#--Not Used-->
@@ -113,9 +119,15 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P43-->,<#rt><#--Not Used--><#--Clearing Code for TT-->
 <#--P44-->,<#rt><#--Not Used--><#--Clearing Zone Code for LBC-->
 <#--P45-->,<#rt><#--Not Used--><#--For IBC Only-->
+<#if entity.custentitycustentity_gbt__payment_method == "check">
+<#--P46-->C,<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
+<#--P47-->P,<#rt><#--Deliver To: C=GBT;P=Payee-->
+<#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is “P” then this field needs to be indicated on where the cheques are to be picked up-->
+<#else>
 <#--P46-->,<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
 <#--P47-->,<#rt><#--Deliver To: C=GBT;P=Payee-->
 <#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is “P” then this field needs to be indicated on where the cheques are to be picked up-->
+</#if>
 <#--P49-->,<#rt>
 <#--P50-->,<#rt><#--Payee Name in Local Language-->
 <#--P51-->,<#rt>
