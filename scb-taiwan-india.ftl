@@ -30,7 +30,9 @@
 </#function>
 
 <#function trimBankCountry str>
-	<#return str?substring(0, str?length-3)>
+	<#if str?ends_with("- IN") || str?ends_with("- TW")>
+		<#return str?substring(0, str?length-3)>
+	</#if>
 </#function>
 
 <#function getReferenceNote payment>
