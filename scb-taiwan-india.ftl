@@ -62,9 +62,9 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#-- Identify Country -->
 <#assign bankCountry = "">
 <#if payment.class == "Taiwan">
-	<assign bankCountry = "TW">
+	<#assign bankCountry = "TW">
 <#elseif payment.class == "India">
-	<assign bankCountry = "IN">
+	<#assign bankCountry = "IN">
 </#if>
 <#--P01-->P,<#rt>
 <#-- Taiwan Payments are all RTGS/Wire -->
