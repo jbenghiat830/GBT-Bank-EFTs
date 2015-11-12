@@ -33,6 +33,10 @@
 	<#if str?ends_with("- IN") || str?ends_with("- TW")>
 		<#return str?substring(0, str?length-3)>
 	</#if>
+	
+	<#if str?ends_with("-IN") || str?ends_with("-TW")>
+		<#return str?substring(0, str?length-2)>
+	</#if>
 </#function>
 
 <#function getReferenceNote payment>
