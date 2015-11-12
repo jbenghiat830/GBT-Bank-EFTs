@@ -92,7 +92,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 </#if>
 <#--P09-->${setMaxLength(cbank.custpage_eft_custrecord_2663_acct_num,34)},<#rt><#--Bank Account Number-->
 <#--P10-->${setMaxLength(pfa.custrecord_2663_file_creation_timestamp?string("dd/MM/yyyy"),10)},<#rt>
-<#--P11-->"${setMaxLength(trimBankCountry(entity.companyname),35)}",<#rt><#--Payee Name-->
+<#--P11-->"${setMaxLength(trimBankCountry(buildEntityName(entity, false)),35)}",<#rt><#--Payee Name-->
 <#if ebank.custrecord_2663_bank_payment_method == "Check Payment">
 <#--P12-->${setMaxLength(buildEntityBillingAddress(entity),35)},<#rt><#--Payee Address1-->
 <#--P13-->${setMaxLength(overflowAddr,35)},<#rt><#--Payee Address2-->
