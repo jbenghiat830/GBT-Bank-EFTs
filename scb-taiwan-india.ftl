@@ -94,8 +94,8 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P10-->${setMaxLength(pfa.custrecord_2663_file_creation_timestamp?string("dd/MM/yyyy"),10)},<#rt>
 <#--P11-->"${setMaxLength(trimBankCountry(entity.companyname),35)}",<#rt><#--Payee Name-->
 <#if ebank.custrecord_2663_bank_payment_method == "Check Payment">
-<#--P12-->${setMaxLength(entity.billaddress1,35)},<#rt><#--Payee Address1-->
-<#--P13-->${setMaxLength(entity.billaddress2,35)},<#rt><#--Payee Address2-->
+<#--P12-->${setMaxLength(buildEntityBillingAddress(entity),35)},<#rt><#--Payee Address1-->
+<#--P13-->${setMaxLength(overflowAddr,35)},<#rt><#--Payee Address2-->
 <#--P14-->,<#rt><#--Payee Address3-->
 <#else>
 <#--P12-->,<#rt><#--Payee Address1-->
