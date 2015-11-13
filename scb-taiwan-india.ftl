@@ -82,7 +82,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P02-->RTGS,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#-- Domestic Local Payments in India -->
-<#elseif bankCountry == "IN" && payment.currency == "Indian Rupee">
+<#elseif bankCountry == "IN" && payment.currency == "Indian Rupee" && ebank.custrecord_2663_bank_payment_method == "ACH">
 <#--P02-->ACH,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->BA,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#-- Check Payment in India -->
@@ -92,7 +92,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 </#if>
 <#--P04-->,<#rt><#--Not Used-->
 <#--P05-->${setMaxLength(getReferenceNote(payment),16)},<#rt>
-<#--P06-->${setMaxLength(payment.memomain,18)},<#rt>
+<#--P06-->,<#rt><#--Not Used-->
 <#if bankCountry == "TW">
 <#--P07-->TW,<#rt><#--Debit Country Code (TW)-->
 <#--P08-->TPE,<#rt><#--Debit City Code (TPE)-->
