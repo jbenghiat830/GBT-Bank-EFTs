@@ -30,12 +30,16 @@
 </#function>
 
 <#function trimBankCountry str>
-	<#if str?ends_with("- IN") || str?ends_with("- TW")>
-		<#return str?substring(0, str?length-4)>
+	<#if str?ends_with(" - IN") || str?ends_with(" - TW")>
+		<#return str?substring(0, str?length-5)>
 	</#if>
 	
 	<#if str?ends_with("-IN") || str?ends_with("-TW")>
 		<#return str?substring(0, str?length-3)>
+	</#if>
+	
+	<#if str?ends_with("- IN") || str?ends_with("- TW")>
+		<#return str?substring(0, str?length-4)>
 	</#if>
 </#function>
 
