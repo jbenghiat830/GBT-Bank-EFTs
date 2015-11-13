@@ -98,7 +98,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#if validateSwift(getReferenceNote(payment))>
 <#--P05-->${setMaxLength(getReferenceNote(payment),16)},<#rt>
 <#else>
-<#--P05-->INVALID_SWIFT_CODE,<#rt>
+<#--P05-->INVALID_SWIFT_CHARACTERS,<#rt>
 </#if>
 <#--P06-->,<#rt><#--Not Used-->
 <#if bankCountry == "TW">
