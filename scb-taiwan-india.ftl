@@ -100,8 +100,8 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P10-->${setMaxLength(pfa.custrecord_2663_file_creation_timestamp?string("dd/MM/yyyy"),10)},<#rt>
 <#--P11-->"${setMaxLength(trimBankCountry(buildEntityName(entity, false)),35)}",<#rt><#--Payee Name-->
 <#if ebank.custrecord_2663_bank_payment_method == "Check Payment">
-<#--P12-->${setMaxLength(buildEntityBillingAddress(entity),35)},<#rt><#--Payee Address1-->
-<#--P13-->${setMaxLength(overflowAddr,35)},<#rt><#--Payee Address2-->
+<#--P12-->"${setMaxLength(buildEntityBillingAddress(entity),35)}",<#rt><#--Payee Address1-->
+<#--P13-->"${setMaxLength(overflowAddr,35)}",<#rt><#--Payee Address2-->
 <#--P14-->,<#rt><#--Payee Address3-->
 <#else>
 <#--P12-->,<#rt><#--Payee Address1-->
@@ -143,15 +143,19 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#if ebank.custrecord_2663_bank_payment_method == "Check Payment">
 <#--P46-->${ebank.custrecord_2663_scb_delivery_method?substring(0, 1)},<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
 <#--P47-->${ebank.custrecord_2663_scb_deliver_to?substring(0, 1)},<#rt><#--Deliver To: C=GBT;P=Payee-->
-<#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is “P” then this field needs to be indicated on where the cheques are to be picked up-->
+<#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is 「P」 then this field needs to be indicated on where the cheques are to be picked up-->
 <#-- Non-Check Payment -->
 <#else>
 <#--P46-->,<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
 <#--P47-->,<#rt><#--Deliver To: C=GBT;P=Payee-->
-<#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is “P” then this field needs to be indicated on where the cheques are to be picked up-->
+<#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is 「P」 then this field needs to be indicated on where the cheques are to be picked up-->
 </#if>
 <#--P49-->,<#rt>
-<#--P50-->,<#rt><#--Payee Name in Local Language-->
+<#if bankCountry == "TW">
+<#--P50-->"${setMaxLength(buildEntityName(entity, true),35)}",<#rt><#--Payee Name in Local Language-->
+<#elseif bankCountry == "IN">
+<#--P50-->,<#rt><#--Not Used-->
+</#if>
 <#--P51-->,<#rt>
 <#--P52-->,<#rt>
 <#--P53-->,<#rt>
