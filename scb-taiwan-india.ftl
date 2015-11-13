@@ -43,6 +43,10 @@
 	</#if>
 </#function>
 
+<#function validateSwift str>
+	<#return str?matches*('^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$')>
+</#function>
+
 <#function getReferenceNote payment>
     <#assign paidTransactions = transHash[payment.internalid]>
     <#if paidTransactions?size == 1>
@@ -91,7 +95,11 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
 </#if>
 <#--P04-->,<#rt><#--Not Used-->
+<#if validateSwift(getReferenceNote(payment))>
 <#--P05-->${setMaxLength(getReferenceNote(payment),16)},<#rt>
+<#else>
+<#--P05-->INVALID_SWIFT_CODE,<#rt>
+</#if>
 <#--P06-->,<#rt><#--Not Used-->
 <#if bankCountry == "TW">
 <#--P07-->TW,<#rt><#--Debit Country Code (TW)-->
