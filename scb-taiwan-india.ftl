@@ -6,37 +6,27 @@
     <#assign address = "">
     <#if entity.billaddress1?has_content >
         <#if (entity.billaddress1?length > 35) >
-        	<#assign address = entity.billaddress1?substring(0, 35)>
-        	<#assign overflowAddr = entity.billaddress1?substring(35)>
+        	<#assign address = entity.billaddress1[0..34]>
+        	<#assign overflowAddr = entity.billaddress1[35..]>
         <#else>
         	<#assign address = entity.billaddress1 >
         </#if>
     <#elseif entity.shipaddress1?has_content >
         <#if (entity.shipaddress1?length > 35) >
-        	<#assign address = entity.shipaddress1?substring(0, 35)>
-        	<#assign overflowAddr = entity.shipaddress1?substring(35)>
+        	<#assign address = entity.shipaddress1[0..34]>
+        	<#assign overflowAddr = entity.shipaddress1[35..]>
         <#else>
         	<#assign address = entity.shipaddress1 >
         </#if>
     <#elseif entity.address1?has_content >
         <#if (entity.address1?length > 35) >
-        	<#assign address = entity.address1?substring(0, 35)>
-        	<#assign overflowAddr = entity.address1?substring(35)>
+        	<#assign address = entity.address1[0..34]>
+        	<#assign overflowAddr = entity.address1[35..]>
         <#else>
         	<#assign address = entity.address1 >
         </#if>
     </#if>
     <#return address>
-</#function>
-
-<#function trimBankCountry str>
-	<#if str?ends_with("- IN") || str?ends_with("- TW")>
-		<#return str?substring(0, str?length-3)>
-	</#if>
-	
-	<#if str?ends_with("-IN") || str?ends_with("-TW")>
-		<#return str?substring(0, str?length-2)>
-	</#if>
 </#function>
 
 <#function getReferenceNote payment>
@@ -98,10 +88,10 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 </#if>
 <#--P09-->${setMaxLength(cbank.custpage_eft_custrecord_2663_acct_num,34)},<#rt><#--Bank Account Number-->
 <#--P10-->${setMaxLength(pfa.custrecord_2663_file_creation_timestamp?string("dd/MM/yyyy"),10)},<#rt>
-<#--P11-->"${setMaxLength(trimBankCountry(buildEntityName(entity, false)),35)}",<#rt><#--Payee Name-->
+<#--P11-->"${setMaxLength(buildEntityName(entity,false),35)}",<#rt><#--Payee Name-->
 <#if ebank.custrecord_2663_bank_payment_method == "Check Payment">
-<#--P12-->${setMaxLength(buildEntityBillingAddress(entity),35)},<#rt><#--Payee Address1-->
-<#--P13-->${setMaxLength(overflowAddr,35)},<#rt><#--Payee Address2-->
+<#--P12-->"${setMaxLength(entity.billaddress1,35)}",<#rt><#--Payee Address1-->
+<#--P13-->"${setMaxLength(entity.billaddress2,35)}",<#rt><#--Payee Address2-->
 <#--P14-->,<#rt><#--Payee Address3-->
 <#else>
 <#--P12-->,<#rt><#--Payee Address1-->
@@ -141,8 +131,8 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P45-->,<#rt><#--Not Used--><#--For IBC Only-->
 <#-- Check Payment Settings -->
 <#if ebank.custrecord_2663_bank_payment_method == "Check Payment">
-<#--P46-->${ebank.custrecord_2663_scb_delivery_method?substring(0, 1)},<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
-<#--P47-->${ebank.custrecord_2663_scb_deliver_to?substring(0, 1)},<#rt><#--Deliver To: C=GBT;P=Payee-->
+<#--P46-->${ebank.custrecord_2663_scb_delivery_method?keep_before("-")},<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
+<#--P47-->${ebank.custrecord_2663_scb_deliver_to?keep_before("-")},<#rt><#--Deliver To: C=GBT;P=Payee-->
 <#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is “P” then this field needs to be indicated on where the cheques are to be picked up-->
 <#-- Non-Check Payment -->
 <#else>
@@ -151,7 +141,11 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is “P” then this field needs to be indicated on where the cheques are to be picked up-->
 </#if>
 <#--P49-->,<#rt>
-<#--P50-->,<#rt><#--Payee Name in Local Language-->
+<#if bankCountry == "TW">
+<#--P50-->"${setMaxLength(buildEntityName(entity,true),40)}",<#rt><#--Payee Name in Local Language-->
+<#elseif bankCountry == "IN">
+<#--P50-->,<#rt><#--Not Used--><#--Payee Name in Local Language-->
+</#if>
 <#--P51-->,<#rt>
 <#--P52-->,<#rt>
 <#--P53-->,<#rt>
