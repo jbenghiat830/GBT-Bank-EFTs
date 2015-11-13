@@ -87,10 +87,10 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#else>
 <#-- Domestic Local Payments in India (India Rupees) -->
-<#if ebank.currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "ACH">
+<#if cbank.custrecord_2663_currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "ACH">
 <#--P02-->ACH,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->BA,<#rt><#--If RTGS or TT=ON, ACH=BA-->
-<#elseif ebank.currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "Wire">
+<#elseif cbank.custrecord_2663_currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "Wire">
 <#--P02-->RTGS,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#-- Check Payment in India -->
@@ -98,7 +98,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P02-->CC,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
 <#-- Telegraphic Transfer -->
-<#elseif (ebank.currency != payment.currency) && (ebank.custrecord_2663_bank_payment_method == "ACH" || ebank.custrecord_2663_bank_payment_method == "Wire")>
+<#elseif (cbank.custrecord_2663_currency != payment.currency) && (ebank.custrecord_2663_bank_payment_method == "ACH" || ebank.custrecord_2663_bank_payment_method == "Wire")>
 <#--P02-->TT,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
 <#-- No Payment Method - Default to ACH -->
