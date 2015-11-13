@@ -85,18 +85,31 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#if bankCountry == "TW">
 <#--P02-->RTGS,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
-<#-- Domestic Local Payments in India -->
-<#elseif bankCountry == "IN" && payment.currency == "Indian Rupee" && ebank.custrecord_2663_bank_payment_method == "ACH">
+<#else>
+<#-- Domestic Local Payments in India (India Rupees) -->
+<#if ebank.currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "ACH">
 <#--P02-->ACH,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->BA,<#rt><#--If RTGS or TT=ON, ACH=BA-->
+<#elseif ebank.currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "Wire">
+<#--P02-->RTGS,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
+<#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#-- Check Payment in India -->
-<#elseif bankCountry == "IN" && ebank.custrecord_2663_bank_payment_method == "Check Payment">
+<#elseif ebank.custrecord_2663_bank_payment_method == "Check Payment">
 <#--P02-->CC,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
+<#-- Telegraphic Transfer -->
+<#elseif (ebank.currency != payment.currency) && (ebank.custrecord_2663_bank_payment_method == "ACH" || ebank.custrecord_2663_bank_payment_method == "Wire")>
+<#--P02-->TT,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
+<#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
+<#-- No Payment Method - Default to ACH -->
+<#else>
+<#--P02-->ACH,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
+<#--P03-->BA,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
+</#if>
 </#if>
 <#--P04-->,<#rt><#--Not Used-->
-<#if validateSwift(getReferenceNote(payment))>
-<#--P05-->${setMaxLength(getReferenceNote(payment),16)},<#rt>
+<#if validateSwift(payment.tranid)>
+<#--P05-->${setMaxLength(payment.tranid,16)},<#rt>
 <#else>
 <#--P05-->INVALID_SWIFT_CHARACTERS,<#rt>
 </#if>
@@ -126,7 +139,11 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P18-->,<#rt><#--Not Used--><#--Payee Branch Code-->
 <#--P19-->,<#rt><#--Not Used-->
 <#--P20-->${setMaxLength(ebank.custrecord_2663_entity_acct_no,34)},<#rt><#--Payee Account Number-->
-<#--P21-->,<#rt><#--Not Used--><#--Payment Description on Check Payments (70)-->
+<#if validateSwift(getReferenceNote(payment))>
+<#--P21-->${setMaxLength(getReferenceNote(payment),70)},<#rt><#--Payment Description on Check Payments (70)-->
+<#else>
+<#--P21-->INVALID_SWIFT_CHARACTERS,<#rt>
+</#if>
 <#--P22-->,<#rt><#--Not Used--><#--Payment Description on Check Payments (70)-->
 <#--P23-->,<#rt><#--Not Used-->
 <#--P24-->,<#rt><#--Not Used-->
