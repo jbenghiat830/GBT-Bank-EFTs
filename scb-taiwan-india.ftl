@@ -44,7 +44,7 @@
 </#function>
 
 <#function validateSwift str>
-	<#return str?matches('^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$')>
+	<#return str?matches('^([0-9]{11})?$')>
 </#function>
 
 <#function getReferenceNote payment>
