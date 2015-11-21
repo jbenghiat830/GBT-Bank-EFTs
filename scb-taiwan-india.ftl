@@ -44,7 +44,7 @@
 </#function>
 
 <#function validateSwift str>
-	<#return str?matches('^([0-9]{11})?$')>
+	<#return str?matches('^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$')>
 </#function>
 
 <#function getReferenceNote payment>
@@ -87,10 +87,10 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#else>
 <#-- Domestic Local Payments in India (India Rupees) -->
-<#if cbank.custrecord_2663_currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "ACH">
+<#if ebank.currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "ACH">
 <#--P02-->ACH,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->BA,<#rt><#--If RTGS or TT=ON, ACH=BA-->
-<#elseif cbank.custrecord_2663_currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "Wire">
+<#elseif ebank.currency == payment.currency && ebank.custrecord_2663_bank_payment_method == "Wire">
 <#--P02-->RTGS,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#-- Check Payment in India -->
@@ -98,7 +98,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P02-->CC,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
 <#-- Telegraphic Transfer -->
-<#elseif (cbank.custrecord_2663_currency != payment.currency) && (ebank.custrecord_2663_bank_payment_method == "ACH" || ebank.custrecord_2663_bank_payment_method == "Wire")>
+<#elseif (ebank.currency != payment.currency) && (ebank.custrecord_2663_bank_payment_method == "ACH" || ebank.custrecord_2663_bank_payment_method == "Wire")>
 <#--P02-->TT,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS/TT/CC=ON, ACH=BA-->
 <#-- No Payment Method - Default to ACH -->
@@ -134,7 +134,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P14-->,<#rt><#--Payee Address3-->
 </#if>
 <#--P15-->,<#rt><#--Not Used-->
-<#--P16-->${setMaxLength(ebank.custrecord_2663_entity_bank_no,17)},<#rt><#--Payee Bank Code/Branch Code (Taiwan); IFSC Code (India)-->
+<#--P16-->${setMaxLength(ebank.custrecord_2663_entity_bank_code,17)},<#rt><#--Payee Bank Code/Branch Code (Taiwan); IFSC Code (India)-->
 <#--P17-->,<#rt><#--Not Used-->
 <#--P18-->,<#rt><#--Not Used--><#--Payee Branch Code-->
 <#--P19-->,<#rt><#--Not Used-->
