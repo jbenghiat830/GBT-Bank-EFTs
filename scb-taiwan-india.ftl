@@ -29,6 +29,26 @@
     <#return address>
 </#function>
 
+<#assign overflowVendorName = "">
+<#function partitionVendorName vendorName>
+	<#if (vendorName?length > 35) >
+		<#assign firstLine = "">
+		<#assign secondLine = "">
+		<#list vendorName?split(" ") as w>
+			<#assign temp = firstLine + w + " ">
+			<#if temp?length <= 35>
+				<#assign firstLine = temp>
+			<#else>
+				<#assign secondLine = secondLine + w + " ">
+			</#if>
+		</#list>
+		<#assign overflowVendorName = secondLine>
+		<#return firstLine>
+	<#else>
+		<#return vendorName>
+	</#if>
+</#function>
+
 <#function trimBankCountry str>
 	<#if str?ends_with(" - IN") || str?ends_with(" - TW")>
 		<#return str?substring(0, str?length-5)>
