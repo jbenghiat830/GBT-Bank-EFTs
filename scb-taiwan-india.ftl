@@ -36,7 +36,7 @@
 		<#assign ontoOverflow = "false">
 		<#list vendorName?split(" ") as w>
 			<#assign temp = firstLine + w + " ">
-			<#if (temp?length <= 35 && flag == "false">
+			<#if (temp?length <= 35 && ontoOverflow == "false">
 				<#assign firstLine = temp>
 			<#else>
 				<#assign ontoOverflow = "true">
