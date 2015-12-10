@@ -33,16 +33,16 @@
 <#function partitionVendorName vendorName>
 	<#if (vendorName?length > 35) >
 		<#assign firstLine = "">
-		<#assign secondLine = "">
+		<#assign ontoOverflow = "false">
 		<#list vendorName?split(" ") as w>
 			<#assign temp = firstLine + w + " ">
-			<#if temp?length <= 35>
+			<#if (temp?length <= 35 && flag == "false">
 				<#assign firstLine = temp>
 			<#else>
-				<#assign secondLine = secondLine + w + " ">
+				<#assign ontoOverflow = "true">
+				<#assign overflowVendorName = overflowVendorName + w + " ">
 			</#if>
 		</#list>
-		<#assign overflowVendorName = secondLine>
 		<#return firstLine>
 	<#else>
 		<#return vendorName>
