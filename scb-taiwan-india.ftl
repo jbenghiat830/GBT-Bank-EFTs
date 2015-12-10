@@ -43,7 +43,8 @@
 				<#assign overflowVendorName = overflowVendorName + w + " ">
 			</#if>
 		</#list>
-		<#return firstLine>
+		<#assign overflowVendorName = overflowVendorName?substring(0, overflowVendorName?length-1)>
+		<#return firstLine?substring(0, firstLine?length-1)>
 	<#else>
 		<#return vendorName>
 	</#if>
