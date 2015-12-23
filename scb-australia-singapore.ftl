@@ -132,7 +132,11 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P46-->,<#rt><#--Delivery Method: M=Mail;C=Courier;P=Pickup-->
 <#--P47-->,<#rt><#--Deliver To: C=GBT;P=Payee-->
 <#--P48-->,<#rt><#--For LBC,CC. If Delivery method & Delivery to is 「P」 then this field needs to be indicated on where the cheques are to be picked up-->
-<#--P49-->,<#rt>
+<#if cbank.custrecord_2663_currency != payment.currency>
+<#--P49-->S,<#rt><#--FX Type: Applicable only if payment and debit account currencies are different. S=System Rate-->
+<#else>
+<#--P49-->,<#rt><#--FX Type: Not Required-->
+</#if>
 <#--P50-->,<#rt><#--Not Used-->
 <#--P51-->,<#rt>
 <#--P52-->,<#rt>
@@ -153,6 +157,14 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P63-->${entity.email},<#rt><#--Email ID-->
 <#--P64-->,<#rt>
 <#--P65-->SW,<#rt><#--Beneficiary Bank Type (SW for RFT Payments)-->
+<#--P66-->,<#rt>
+<#--P67-->,<#rt>
+<#--P68-->,<#rt>
+<#--P69-->,<#rt>
+<#--P70-->,<#rt>
+<#--P71-->,<#rt>
+<#--P72-->,<#rt>
+<#--P73-->${setMaxLength(payment.tranid,16)},<#rt><#--MT101 Related Information: Same as Field 5-Customer Reference-->
 ${"\n"}<#--Line Break--><#rt>
 </#list>
 T,${setMaxLength(recordCount,5)},${setMaxLength(formatAmount(totalAmount,"dec"),14)}<#rt>
