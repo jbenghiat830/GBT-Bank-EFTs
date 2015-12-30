@@ -43,10 +43,6 @@
 	</#if>
 </#function>
 
-<#function validateSwift str>
-	<#return str?matches('^([0-9]{11})?$')>
-</#function>
-
 <#function getReferenceNote payment>
     <#assign paidTransactions = transHash[payment.internalid]>
     <#if paidTransactions?size == 1>
@@ -85,11 +81,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P02-->TT,<#rt><#--TT=Telegraphic Transfer;RTGS=Wire Payments;CC=Corporate Cheque;Taiwan EFT=RTGS-->
 <#--P03-->ON,<#rt><#--If RTGS or TT=ON, ACH=BA-->
 <#--P04-->,<#rt><#--Not Used-->
-<#if validateSwift(payment.tranid)>
 <#--P05-->${setMaxLength(payment.tranid,16)},<#rt>
-<#else>
-<#--P05-->INVALID_SWIFT_CHARACTERS,<#rt>
-</#if>
 <#--P06-->,<#rt><#--Not Used-->
 <#--P07-->US,<#rt><#--Debit Country Code (US)-->
 <#--P08-->NY,<#rt><#--Debit City Code (NY)-->
