@@ -129,7 +129,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 </#if>
 </#if>
 <#--P04-->,<#rt><#--Not Used-->
-<#--P05-->${setMaxLength(payment.tranid + pfa.custrecord_2663_process_date?string("ddMMyyyy"),16)},<#rt>
+<#--P05-->${setMaxLength(payment.tranid + "-" + pfa.custrecord_2663_process_date?string("ddMM"),16)},<#rt>
 <#--P06-->,<#rt><#--Not Used-->
 <#if bankCountry == "TW">
 <#--P07-->TW,<#rt><#--Debit Country Code (TW)-->
