@@ -84,7 +84,7 @@ H,P${"\n"}<#rt><#-- Header Record: Record Type=H ; File Type=P -->
 <#--P02-->RFT,<#rt>
 <#--P03-->ON,<#rt>
 <#--P04-->,<#rt><#--Not Used-->
-<#--P05-->${setMaxLength(payment.tranid,16)},<#rt>
+<#--P05-->${setMaxLength(payment.tranid + "-" + pfa.custrecord_2663_process_date?string("ddMM"),16)},<#rt>
 <#--P06-->,<#rt><#--Not Used-->
 <#--P07-->MT,<#rt><#--Debit Country Code (MT)-->
 <#--P08-->101,<#rt><#--Debit City Code (101)-->
